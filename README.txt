@@ -5,4 +5,5 @@ To use:
 1. Have a text editor window open in Blender
 2. Drag-n-drop or open the script in the text editor
 3. Select the object you want to use the script on with your cursor
+(optional: can edit which modifier gets applied by changing the index of modifierIndex)
 4. Hit the run button in the text editor window
