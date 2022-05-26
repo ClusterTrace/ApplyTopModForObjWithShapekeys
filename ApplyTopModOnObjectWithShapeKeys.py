@@ -13,6 +13,7 @@ object = bpy.context.active_object; # gets the selected object
 shapeKeys = bpy.context.active_object.data.shape_keys.key_blocks.keys(); # gets an array of strings of the names of the shape keys
 shapeCount = len(shapeKeys) - 1; # Doesn't include basis
 shapeKeyObjects = []; #creates an array to store the shapekey objects in
+modifierIndex = 0; # index of the modifier to be applied (first is in index 0)
 
 if len(bpy.context.object.modifiers.values()) > 0:
     # sets all shapekeys to 0 on selected object
@@ -39,7 +40,8 @@ if len(bpy.context.object.modifiers.values()) > 0:
             bpy.context.object.active_shape_key_index = 0; #Grabs the shapekey in slot 0
             bpy.ops.object.shape_key_remove(all=False);
             j = j + 1
-        type = bpy.context.object.modifiers.active.type.capitalize();
+    	bpy.context.object.modifiers.active = bpy.context.object.modifiers.values()[modifierIndex]; # sets the wanted modifier as active
+        type = bpy.context.object.modifiers.active.name;
         bpy.ops.object.modifier_apply(modifier=type); #applies the first modifier
         bpy.context.object.name = shapeKeys[i]; #names object the shapekey to ensure name stays in list correctly
         shapeKeyObjects.append(bpy.context.active_object); # adds object to the list
@@ -51,8 +53,8 @@ if len(bpy.context.object.modifiers.values()) > 0:
     #applies the first modifier
     bpy.context.view_layer.objects.active = object; # sets active object as the original
     bpy.context.object.shape_key_clear(); # clears all shakekeys on the selected object
-    bpy.context.object.modifiers.active = bpy.context.object.modifiers.values()[0]; # sets the first modifier as active
-    type = bpy.context.object.modifiers.active.type.capitalize();
+    bpy.context.object.modifiers.active = bpy.context.object.modifiers.values()[modifierIndex]; # sets the wanted modifier as active
+    type = bpy.context.object.modifiers.active.name;
     bpy.ops.object.modifier_apply(modifier=type); #applies the first modifier
 
     # Readds shapekeys
